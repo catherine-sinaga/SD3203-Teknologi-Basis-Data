@@ -1,0 +1,37 @@
+# Three Ways of Storing and Accessing Lots of Images in Python
+
+## Pendahuluan
+ Dalam dunia medis dan penelitian, data gambar medis seringkali besar, bahkan mencapai ukuran terabyte. Oleh karena itu, penting untuk memiliki metode penyimpanan gambar yang efisien dan dapat diakses dengan cepat. Dalam laporan ini, kami akan mengevaluasi dan membandingkan tiga metode penyimpanan gambar menggunakan Python. Kami akan meninjau kelebihan, kelemahan, serta situasi terbaik untuk menerapkan setiap metode. Tujuannya adalah membantu para profesional medis dan peneliti dalam memilih metode penyimpanan yang sesuai dengan kebutuhan mereka, terutama ketika menghadapi dataset gambar medis yang sangat besar. Kami akan menjelaskan perbedaan antara penyimpanan gambar langsung ke disk, penggunaan LMDB, dan penggunaan HDF5, sehingga dapat membuat keputusan yang tepat dalam memilih metode penyimpanan optimal untuk analisis gambar medis terabyte. Faktor seperti kinerja, efisiensi penyimpanan, dan kompleksitas implementasi akan menjadi pertimbangan utama.
+
+## Metode 
+
+### 1. Penyimpanan Gambar dalam Format File Disk
+
+Penyimpanan gambar langsung ke dalam file disk adalah pendekatan yang simpel dan umum digunakan. Pertama, kita membuat direktori khusus untuk menyimpan gambar-gambar, dan kemudian menyimpan setiap gambar dalam format file PNG di dalam direktori tersebut.
+
+Kelebihannya adalah kesederhanaan dan kemudahan pemahamannya, tanpa memerlukan pustaka tambahan. Namun, kelemahannya adalah penggunaan ruang disk yang besar karena setiap gambar disimpan sebagai file terpisah. Ini dapat menjadi tidak efisien untuk gambar dengan skala besar atau saat memproses banyak gambar sekaligus.
+
+### 2. Penyimpanan gambar dengan LMDB
+
+LMDB (Lightning Memory-Mapped Database) adalah sebuah database key-value yang dirancang untuk memberikan kinerja tinggi dengan penggunaan memori yang efisien. Pertama-tama, kita membuat sebuah database LMDB, dan kemudian gambar-gambar disimpan di dalam database ini dalam bentuk byte strings.
+
+Kelebihan penggunaan LMDB adalah kinerja tinggi saat mengakses data, yang sangat berguna ketika berurusan dengan jumlah gambar yang besar. Selain itu, LMDB juga mendukung konkurensi, memungkinkan akses data secara bersamaan.
+
+Namun, LMDB juga memiliki beberapa kelemahan, seperti konfigurasi awal yang bisa lebih kompleks dibandingkan dengan metode lain. Ini terlihat dari kebutuhan untuk melakukan pengaturan awal saat mengelola perubahan dalam dataset.
+
+
+### 3. Penyimpanan Gambar dengan HDF5
+
+Ketika menggunakan format HDF5 untuk menyimpan gambar, langkah pertama adalah membuat file HDF5 sebagai tempat penyimpanan gambar. Dalam format ini, gambar-gambar ditempatkan di dalam dataset HDF5. Kelebihan dari metode ini adalah gabungan antara kinerja yang baik dan kemudahan penggunaan, serta kemampuan untuk menangani struktur dataset yang kompleks. Kompleksitas ini mencakup pengelolaan dataset yang terdiri dari beberapa gambar, gambar dengan dimensi yang berbeda, atau bahkan data lain yang terkait seperti label atau metadata. Keunggulan ini memungkinkan pengguna untuk membuat struktur dataset sesuai dengan kebutuhan aplikasi. Namun, metode ini juga memiliki kelemahan, yaitu memerlukan penyesuaian saat mengelola data dalam skala besar dengan jumlah gambar yang banyak.
+
+#### perbandingan ketiga metode
+
+1. Penyimpanan langsung ke dalam file-file di disk adalah cara yang sederhana, tapi kurang efisien untuk proyek yang besar dan kompleks
+
+2. Metode menggunakan LMDB memberikan kinerja yang bagus dan bisa menghemat ruang, tapi butuh pemahaman teknis yang lebih dalam dan setelan awal yang tepat.
+
+3. Metode menggunakan HDF5 memberikan keseimbangan antara kinerja dan kemudahan penggunaan, cocok untuk proyek dengan kompleksitas menengah hingga besar.
+
+##  Kesimpulan
+
+Dalam konteks analisis terabyte gambar medis, pemilihan metode penyimpanan harus mempertimbangkan trade-off antara kinerja, efisiensi penyimpanan, dan kompleksitas implementasi. LMDB cocok untuk skala besar dengan kebutuhan kinerja tinggi, sedangkan HDF5 memberikan solusi yang lebih terstruktur dan mudah digunakan untuk dataset yang kompleks namun tidak terlalu besar
